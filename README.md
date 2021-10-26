@@ -10,7 +10,7 @@ decoded command and the assigned action is executed.
 ## Parts
 The IR receiver breakout is from a sensor kit for Arduino
 
-![IRreceiver](images/irReceiverBreakout.jpg)
+![IRreceiver](images/IRreceiverBreakout.jpg)
 
 ## Wiring
 
