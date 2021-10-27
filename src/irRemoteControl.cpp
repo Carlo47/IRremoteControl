@@ -41,6 +41,7 @@ typedef struct { const uint8_t cmd[4]; const char *txt; Action action; } Command
 void _nop(const uint8_t i) {};
 void showCmd(uint8_t cmd);
 void toggleLed(uint8_t cmd);
+void selectIRcontrol(uint8_t cmd);
 
 // Select one of the defined controllers
 RemoteController remoteCtrl = RemoteController::TOSHIBA_NEC;
@@ -49,10 +50,10 @@ RemoteController remoteCtrl = RemoteController::TOSHIBA_NEC;
 // Replace the action showCmd with your own function that should execute a command.
 const Command cmdTbl[] = 
 { // TOSHIBA  NONAME   ACER  TERRATEC
-    { {0x00,   0x00,   0x00,  0x00}, "0", showCmd } ,
-    { {0x01,   0x01,   0x01,  0x01}, "1", showCmd } ,
-    { {0x02,   0x02,   0x02,  0x02}, "2", showCmd } ,
-    { {0x03,   0x03,   0x03,  0x03}, "3", showCmd } ,
+    { {0x00,   0x00,   0x00,  0x00}, "0", selectIRcontrol } ,
+    { {0x01,   0x01,   0x01,  0x01}, "1", selectIRcontrol } ,
+    { {0x02,   0x02,   0x02,  0x02}, "2", selectIRcontrol } ,
+    { {0x03,   0x03,   0x03,  0x03}, "3", selectIRcontrol } ,
     { {0x04,   0x04,   0x04,  0x04}, "4", showCmd } ,
     { {0x05,   0x05,   0x05,  0x05}, "5", showCmd } ,
     { {0x06,   0x06,   0x06,  0x06}, "6", showCmd } ,
@@ -94,6 +95,34 @@ void showCmd(const uint8_t i)
 void toggleLed(const uint8_t cmd)
 {
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+}
+
+/**
+ * Selects another controller by pushing buttons 0..3
+ */
+void selectIRcontrol(uint8_t cmd)
+{
+    switch (cmd)
+    {
+        case 0x00:
+            remoteCtrl = static_cast<RemoteController>(cmd);
+            Serial.println("TOSHIBA_NEC selected");
+        break;
+        case 0x01:
+            remoteCtrl = static_cast<RemoteController>(cmd);
+            Serial.println("NONAME_RC5 selected");
+        break;
+        case 0x02:
+            remoteCtrl = static_cast<RemoteController>(cmd);
+            Serial.println("ACER_RC6 selected");
+        break;
+        case 0x03:
+            remoteCtrl = static_cast<RemoteController>(cmd);
+            Serial.println("TERRATEC_NEC selected");
+        break;
+        default:
+        break;  
+    }                  
 }
 
 /**
