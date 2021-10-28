@@ -32,10 +32,10 @@
 #define PIN_IR_RECEIVE  11
 
 // Add your IR Controller
-enum class RemoteController {TOSHIBA_NEC, NONAME_RC5, ACER_RC6, TERRATEC_NEC};
+enum class RemoteController {TOSHIBA_NEC, NONAME_RC5, ACER_RC6, TERRATEC_NEC, ELEGOO_NEC};
 
 typedef void (*Action)(const uint8_t cmd);
-typedef struct { const uint8_t cmd[4]; const char *txt; Action action; } Command;
+typedef struct { const uint8_t cmd[5]; const char *txt; Action action; } Command;
 
 // Forward declarations
 void _nop(const uint8_t i) {};
@@ -49,33 +49,33 @@ RemoteController remoteCtrl = RemoteController::TOSHIBA_NEC;
 // Add the commands of our IR control, do not forget to adjust the array size in typedef Command
 // Replace the action showCmd with your own function that should execute a command.
 const Command cmdTbl[] = 
-{ // TOSHIBA  NONAME   ACER  TERRATEC
-    { {0x00,   0x00,   0x00,  0x00}, "0", selectIRcontrol } ,
-    { {0x01,   0x01,   0x01,  0x01}, "1", selectIRcontrol } ,
-    { {0x02,   0x02,   0x02,  0x02}, "2", selectIRcontrol } ,
-    { {0x03,   0x03,   0x03,  0x03}, "3", selectIRcontrol } ,
-    { {0x04,   0x04,   0x04,  0x04}, "4", showCmd } ,
-    { {0x05,   0x05,   0x05,  0x05}, "5", showCmd } ,
-    { {0x06,   0x06,   0x06,  0x06}, "6", showCmd } ,
-    { {0x07,   0x07,   0x07,  0x07}, "7", showCmd } ,
-    { {0x08,   0x08,   0x08,  0x08}, "8", showCmd } ,
-    { {0x09,   0x09,   0x09,  0x09}, "9", showCmd } ,
-    { {0x21,   0x57,   0x22,  0x19}, "OK",showCmd } ,
-    { {0x42,   0x11,   0x20,  0x17}, "<", showCmd } ,
-    { {0x40,   0x10,   0x21,  0x18}, ">", showCmd } ,
-    { {0x19,   0x20,   0x1E,  0x15}, "UP",     showCmd } ,
-    { {0x1D,   0x21,   0x1F,  0x16}, "DOWN",   showCmd } ,
-    { {0x75,   0x54,   0x15,  0x1C}, "<<",     showCmd } ,
-    { {0x76,   0x56,   0x14,  0x1D}, ">>",     showCmd } ,
-    { {0x1A,   0x40,   0x10,  0x0F}, "V-UP",   showCmd } ,
-    { {0x1E,   0x41,   0x11,  0x10}, "V-DOWN", showCmd } ,
-    { {0x1B,   0x30,   0x12,  0x0D}, "CH-UP",  showCmd } ,
-    { {0x1F,   0x31,   0x13,  0x0E}, "CH-DOWN",showCmd } ,
-    { {0x12,   0x0C,   0x0C,  0x0A}, "ON/OFF", toggleLed } ,
-    { {0x48,   0x37,   0x5B,  0xFF}, "RED",    showCmd } ,
-    { {0x49,   0x36,   0x5C,  0xFF}, "GREEN",  showCmd } ,
-    { {0x4A,   0x32,   0x5D,  0xFF}, "YELLOW", showCmd } ,
-    { {0x4B,   0x34,   0x5E,  0xFF}, "BLUE",   showCmd } ,
+{ // TOSHIBA  NONAME   ACER TERRATEC ELEGOO
+    { {0x00,   0x00,   0x00,  0x00,  0x16}, "0", selectIRcontrol } ,
+    { {0x01,   0x01,   0x01,  0x01,  0x0C}, "1", selectIRcontrol } ,
+    { {0x02,   0x02,   0x02,  0x02,  0x18}, "2", selectIRcontrol } ,
+    { {0x03,   0x03,   0x03,  0x03,  0x5E}, "3", selectIRcontrol } ,
+    { {0x04,   0x04,   0x04,  0x04,  0x08}, "4", selectIRcontrol } ,
+    { {0x05,   0x05,   0x05,  0x05,  0x1C}, "5", showCmd } ,
+    { {0x06,   0x06,   0x06,  0x06,  0x5A}, "6", showCmd } ,
+    { {0x07,   0x07,   0x07,  0x07,  0x42}, "7", showCmd } ,
+    { {0x08,   0x08,   0x08,  0x08,  0x52}, "8", showCmd } ,
+    { {0x09,   0x09,   0x09,  0x09,  0x4A}, "9", showCmd } ,
+    { {0x21,   0x57,   0x22,  0x19,  0xFF}, "OK",showCmd } ,
+    { {0x42,   0x11,   0x20,  0x17,  0xFF}, "<", showCmd } ,
+    { {0x40,   0x10,   0x21,  0x18,  0xFF}, ">", showCmd } ,
+    { {0x19,   0x20,   0x1E,  0x15,  0x09}, "UP",     showCmd } ,
+    { {0x1D,   0x21,   0x1F,  0x16,  0x07}, "DOWN",   showCmd } ,
+    { {0x75,   0x54,   0x15,  0x1C,  0x44}, "<<",     showCmd } ,
+    { {0x76,   0x56,   0x14,  0x1D,  0x43}, ">>",     showCmd } ,
+    { {0x1A,   0x40,   0x10,  0x0F,  0x46}, "V-UP",   showCmd } ,
+    { {0x1E,   0x41,   0x11,  0x10,  0x15}, "V-DOWN", showCmd } ,
+    { {0x1B,   0x30,   0x12,  0x0D,  0xFF}, "CH-UP",  showCmd } ,
+    { {0x1F,   0x31,   0x13,  0x0E,  0xFF}, "CH-DOWN",showCmd } ,
+    { {0x12,   0x0C,   0x0C,  0x0A,  0x45}, "ON/OFF", toggleLed } ,
+    { {0x48,   0x37,   0x5B,  0xFF,  0xFF}, "RED",    showCmd } ,
+    { {0x49,   0x36,   0x5C,  0xFF,  0xFF}, "GREEN",  showCmd } ,
+    { {0x4A,   0x32,   0x5D,  0xFF,  0xFF}, "YELLOW", showCmd } ,
+    { {0x4B,   0x34,   0x5E,  0xFF,  0xFF}, "BLUE",   showCmd } ,
 };
 const int nbrCmds = sizeof( cmdTbl) / sizeof(cmdTbl[0]);
 
@@ -85,7 +85,7 @@ const int nbrCmds = sizeof( cmdTbl) / sizeof(cmdTbl[0]);
 void showCmd(const uint8_t i)
 {
     char buf[32];
-    snprintf(buf, sizeof(buf), "0x%X  %s", cmdTbl[i].cmd[(int)remoteCtrl], cmdTbl[i].txt);
+    snprintf(buf, sizeof(buf), "0x%02X  %s", cmdTbl[i].cmd[(int)remoteCtrl], cmdTbl[i].txt);
     Serial.println(buf);
 }
 
@@ -105,20 +105,29 @@ void selectIRcontrol(uint8_t cmd)
     switch (cmd)
     {
         case 0x00:
+        case 0x16: // ELEGOO
             remoteCtrl = static_cast<RemoteController>(cmd);
             Serial.println("TOSHIBA_NEC selected");
         break;
         case 0x01:
+        case 0x0C: // ELEGOO
             remoteCtrl = static_cast<RemoteController>(cmd);
             Serial.println("NONAME_RC5 selected");
         break;
         case 0x02:
+        case 0x18: // ELEGOO
             remoteCtrl = static_cast<RemoteController>(cmd);
             Serial.println("ACER_RC6 selected");
         break;
         case 0x03:
+        case 0x5E: // ELEGOO
             remoteCtrl = static_cast<RemoteController>(cmd);
             Serial.println("TERRATEC_NEC selected");
+        break;
+        case 0x04:
+        case 0x08: // ELEGOO
+            remoteCtrl = static_cast<RemoteController>(cmd);
+            Serial.println("ELEGOO_NEC selected");
         break;
         default:
         break;  

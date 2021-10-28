@@ -1,13 +1,14 @@
 # IRremoteControl
 The program uses the IRremote library to explore the codes
-of infrared remote controls. The codes for 4 different
+of infrared remote controls. The codes for 5 different
 remote controls are stored in a table which you can complete
 with your own codes.
 
 Each time a button is pressed, the table is searched for the
 decoded command and the assigned action is executed.
 
-With the buttons 0..3 we can switch from one controller to another.
+With the buttons 0..4 we can switch from one controller to another.
+The ON/OFF button toggles the builtin Led.
 ## Parts
 The IR receiver breakout is from a sensor kit for Arduino
 
@@ -119,6 +120,61 @@ The IR receiver breakout is from a sensor kit for Arduino
 |   0x5B  0x5C  0x5D  0x5E   |
 |             0x5A           |
 `----------------------------´
+```
+
+### TERRATEC NEC
+```
+.----------------------------.
+|    0x0A    0x0B    0x0C    |
+|                            |
+|   0x01  0x02  0x03  0x0D   |          1  2  3
+|                            |
+|   0x04  0x05  0x06  0x0E   |          4  5  6
+|                            |
+|   0x07  0x08  0x09  0x0F   |          7  8  9 
+|                            |
+|   0x11  0x00  0x12  0x10   |             0
+|                            |
+|                            |
+|    0x13    0x15    0x14    |
+|                            |
+|    0x17    0x19    0x18    |
+|                            |
+|    0x1B    0x16    0x1A    |
+|                            |
+|                            |
+|   0x1C  0x1D  0x1E  0x1F   |
+|                            |
+|   0x20  0x21  0x22  0x23   |
+`----------------------------´
+```
+
+
+### ELEGOO NEC
+```
+.--------------------.
+| on/off  V+  FNC/STP | 
+|  0x45  0x46  0x47   |
+|                     |
+|  ¦<<    >||   >>¦   |
+|  0x44  0x40  0x43   |
+|                     | 
+|   DWN   V-    UP    | 
+|  0x07  0x15  0x09   |
+|                     |
+|    0    EQ  STP/RPT |
+|  0x16  0x19  0x0D   |
+|                     |
+|    1     2     3    |   In this remote control
+|  0x0C  0x18  0x5E   |   the codes for the digits 
+|                     |   do not correspond 
+|    4     5     6    |   directly to the digits
+|  0x08  0x1C  0x5A   |   themselves as in the
+|                     |   previous remote controls.
+|    7     8     9    |   
+|  0x42  0x52  0x4A   |
+`---------------------´ 
+ 
 ```
 ## IR Remote Controls
 ![IRControls](images/IRcontroller.jpg)
